@@ -1,0 +1,164 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-md-3 bg-secondary" style="height: 90vh">
+      <div class="card p-3 my-3">
+        <form [formGroup]="todoForm">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Enter todos</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              formControlName="todos"
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              class="btn btn-outline-success btn-sm"
+              style="width: 100%"
+              [disabled]="todoForm.invalid"
+              (click)="addTodos()"
+              *ngIf="!isEditEnabled"
+            >
+              Submit
+            </button>
+            <button
+              type="submit"
+              class="btn btn-outline-success btn-sm"
+              style="width: 100%"
+              [disabled]="todoForm.invalid"
+              (click)="updateTodo()"
+              *ngIf="isEditEnabled"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div cdkDropListGroup>
+        <div class="row">
+          <!-- to do  -->
+          <div class="col-md-4 my-3">
+            <div class="card">
+              <div class="card-header">
+                To Do <span *ngIf="tasks.length > 0">: {{ tasks.length }}</span>
+              </div>
+              <div class="card-body px-2">
+                <div class="example-container">
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="tasks"
+                    class="example-list"
+                    (cdkDropListDropped)="drop($event)"
+                  >
+                    <div
+                      class="example-box"
+                      *ngFor="let task of tasks; let i = index"
+                      cdkDrag
+                    >
+                      {{ task.description }}
+                      <div>
+                        <button
+                          class="btn btn-sm btn-warning me-2"
+                          (click)="editTodo(task, i)"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          class="btn btn-sm btn-danger"
+                          (click)="deleteTodo(i)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- in progress  -->
+          <div class="col-md-4 my-3">
+            <div class="card">
+              <div class="card-header">
+                In progress
+                <span *ngIf="inProgress.length > 0"
+                  >: {{ inProgress.length }}</span
+                >
+              </div>
+              <div class="card-body px-2">
+                <div class="example-container">
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="inProgress"
+                    class="example-list"
+                    (cdkDropListDropped)="drop($event)"
+                  >
+                    <div
+                      class="example-box"
+                      *ngFor="let item of inProgress; let i = index"
+                      cdkDrag
+                    >
+                      {{ item.description }}
+                      <button
+                        class="btn btn-sm btn-danger"
+                        (click)="deleteInProgress(i)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- done -->
+
+          <div class="col-md-4 my-3">
+            <div class="card">
+              <div class="card-header">
+                Done <span *ngIf="done.length > 0">: {{ done.length }}</span>
+              </div>
+              <div class="card-body px-2">
+                <div class="example-container">
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="done"
+                    class="example-list"
+                    (cdkDropListDropped)="drop($event)"
+                  >
+                    <div
+                      class="example-box"
+                      *ngFor="let item of done; let i = index"
+                      cdkDrag
+                    >
+                      {{ item.description }}
+                      <div>
+                        <button class="btn btn-sm btn-success me-2">
+                          Done
+                        </button>
+                        <button
+                          class="btn btn-sm btn-danger"
+                          (click)="deleteDoneTodo(i)"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
